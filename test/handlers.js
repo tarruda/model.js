@@ -11,13 +11,7 @@ var assert = require('assert')
 * 2 - a set of incorrect values
 */
 suite('Handlers:', function() {
-  var fnMsg = 'Stub' 
-  , key
-  , CustomModel = Model.extend({},  {
-      messages: { 
-        fn: fnMsg
-      }
-    })
+  var key
   , fixtures = {
     booleanType:[{p:{type: 'boolean'}}, [true,'false'], ['t',1,4.3,{}]],
     // anything can go in a string type
@@ -33,7 +27,7 @@ suite('Handlers:', function() {
         '2012-06-20', 
         '2012-06-20 07:33:00'
         ], ['invalid']],
-    required: [{p:{required: true}},['req1'], [null, undefined, '']],
+    required: [{p:{required: true}},['req1',0], [null, undefined, '']],
     minlength: [{p:{minlength: 4}}, ['abcd'], ['abc']],
     maxlength: [{p:{maxlength: 6}}, ['abcdef'],['abcdefg']],
     min: [{p:{min: 11}}, [11], [10]],
@@ -43,21 +37,17 @@ suite('Handlers:', function() {
     number: [{p:{number: true}}, ['23.2','232'], ['abc','2332.2.2']],
     digits: [{p:{digits: true}}, ['2463672'], ['43563d35']],
     // from http://www.ihwy.com/labs/jquery-validate-credit-card-extension.aspx
-    creditcard: [{p:{creditcard: true}}, ['370000000000002'], ['5424180832']],
-    fn: [{
-      p: {
-        fn: function(value, target, property) {
-          // custom validation
-          if (value !== 'correct')
-            return fnMsg;
-        }
-      }
-    }, ['correct'], ['aadfag', 124, /abc/]]
-
+    creditcard: [{p:{creditcard: true}}, ['370000000000002'], ['5424180832']]
   };
 
   for (key in fixtures) {
-    (function(model, correct, incorrect) {
+    (function(rulesMap, correct, incorrect) {
+      var error = {}
+      , model = Model.extend(rulesMap, {
+        getError: function() {
+          return error;
+        }
+      });
       for (var handlerKey in model.rulesMap.p)
         break; // The first key is the handler name
       test("'" + key + "'" + ' with correct values', function() {
@@ -72,9 +62,9 @@ suite('Handlers:', function() {
           var result = model.validate({p:incorrect[i]});
           assert.notStrictEqual(null, result);
           assert.strictEqual(result.p.length, 1);
-          assert.strictEqual(result.p[0], model.messages[handlerKey]);
+          assert.strictEqual(result.p[0], error);
         };
       });
-    })(CustomModel.extend(fixtures[key][0]), fixtures[key][1], fixtures[key][2]);
+    })(fixtures[key][0], fixtures[key][1], fixtures[key][2]);
   }
 });
