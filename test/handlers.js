@@ -34,8 +34,6 @@ suite('Handlers:', function() {
     max: [{p:{max: 6}}, [6], [7]],
     email: [{p:{email: true}}, ['abc@def.com'], ['not an email']],
     url: [{p:{url: true}}, ['http://www.google.com'], ['www.google.com']],
-    number: [{p:{number: true}}, ['23.2','232'], ['abc','2332.2.2']],
-    digits: [{p:{digits: true}}, ['2463672'], ['43563d35']],
     // from http://www.ihwy.com/labs/jquery-validate-credit-card-extension.aspx
     creditcard: [{p:{creditcard: true}}, ['370000000000002'], ['5424180832']]
   };
