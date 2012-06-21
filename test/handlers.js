@@ -29,7 +29,7 @@ suite('Handlers:', function() {
         ], ['invalid']],
     required: [{p:{required: true}},['req1',0], [null, undefined, '']],
     minlength: [{p:{minlength: 4}}, ['abcd'], ['abc']],
-    maxlength: [{p:{maxlength: 6}}, ['abcdef'],['abcdefg']],
+    maxlength: [{p:{maxlength: 6}}, ['abcdef',[2,3,4,5,6]],['abcdefg']],
     min: [{p:{min: 11}}, [11], [10]],
     max: [{p:{max: 6}}, [6], [7]],
     email: [{p:{email: true}}, ['abc@def.com'], ['not an email']],
