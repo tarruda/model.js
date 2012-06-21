@@ -13,8 +13,10 @@ var assert = require('assert')
 suite('Handlers:', function() {
   var fnMsg = 'Stub' 
   , key
-  , CustomModel = Model.extend({}, {}, {
-      fn: fnMsg
+  , CustomModel = Model.extend({},  {
+      messages: { 
+        fn: fnMsg
+      }
     })
   , fixtures = {
     booleanType:[{p:{type: 'boolean'}}, [true,'false'], ['t',1,4.3,{}]],
