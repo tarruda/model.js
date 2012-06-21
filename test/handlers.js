@@ -64,15 +64,15 @@ suite('Handlers:', function() {
         for (var i = 0; i < correct.length; i++) {
           // the 'validate' method returns null when there are
           // no errors.
-          assert.equal(model.validate({p:correct[i]}), null);
+          assert.strictEqual(model.validate({p:correct[i]}), null);
         };
       });
       test("'" + key + "'" + ' with incorrect values', function() {
         for (var i = 0; i < incorrect.length; i++) {
           var result = model.validate({p:incorrect[i]});
-          assert.notEqual(null, result);
-          assert.equal(result.p.length, 1);
-          assert.equal(result.p[0], model.messages[handlerKey]);
+          assert.notStrictEqual(null, result);
+          assert.strictEqual(result.p.length, 1);
+          assert.strictEqual(result.p[0], model.messages[handlerKey]);
         };
       });
     })(CustomModel.extend(fixtures[key][0]), fixtures[key][1], fixtures[key][2]);
