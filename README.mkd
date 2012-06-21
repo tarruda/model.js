@@ -1,0 +1,44 @@
+# model.js
+
+  Lightweight library for declaring/validating models/schemas. It has no
+  dependencies and is focused on validating javascript objects only. Models 
+  defined can easily be reused on server side or on browser, providing a
+  central place to validate your data.
+
+  This library is based on Backbone and jQuery-validation(some of the builtin
+  validation functions are adaptations from jQuery-validation(the regexes were
+  copied). 
+
+## Motivation
+
+  Need for a library focused on validating data without depending on the DOM
+  or other libraries so the validation log
+
+## Usage
+
+```js
+var Model = require('model.js');
+```
+
+  'Model' represents an abstract data model/schema. To do anything useful you 
+  need to extend the Model with properties. Each property can be associated with 
+  set of rules:
+
+```
+var Person = Model.extend({
+  name: {
+    type: String,
+    minlength: 4
+    maxlength: 20
+  },
+  age: {
+    type: Number,
+    max: 200
+  }
+});
+```
+
+## To run the tests
+
+    $ npm install -d
+    $ make test
