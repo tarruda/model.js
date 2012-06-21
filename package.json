@@ -1,0 +1,14 @@
+{
+  "author": "Thiago de Arruda <tpadilha84@gmail.com>",
+  "name": "model.js",
+  "description": "Library for performing validation on javascript objects. Allows easy reuse of validation logic on browser/server",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tarruda/model.js.git"
+  },
+  "devDependencies": {
+    "mocha": "1.2.0",
+    "assert": "0.4.9"
+  }
+}
