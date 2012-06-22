@@ -67,4 +67,10 @@ suite('Example:', function() {
     assert.equal(result.id[0], Model.getError('required'));
     assert.equal(result['contact.email'][0], Model.getError('required'));
   });
+
+  test('Validating a single property', function() {
+    var result = Customer.validateProperty('contact.email', {});
+    assert.equal(result.length, 1);
+    assert.equal(result[0], Model.getError('required'));
+  });
 });
