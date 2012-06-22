@@ -6,15 +6,19 @@
   central place to validate your data.
 
   This library is based on Backbone and jQuery-validation(some of the builtin
-  validation functions are adaptations from jQuery-validation(the regexes were
+  validation functions are adaptations from jQuery-validation(a few regexes were
   copied). 
 
-## Motivation
+#### Motivation
 
-  Need for a library focused on validating data without depending on the DOM
-  or other libraries so the validation log
+  Need for a library focused on validating declarative rules without
+  dependencies such as views, forms, DOM or other libraries.
 
-## Usage
+#### Instalation
+
+    $ npm install model.js
+
+#### Usage
 
 ```js
 var Model = require('model.js');
@@ -22,20 +26,53 @@ var Model = require('model.js');
 
   'Model' represents an abstract data model/schema. To do anything useful you 
   need to extend the Model with properties. Each property can be associated with 
-  set of rules:
+  set of rules.
+
+#### Example:
 
 ```
-var Person = Model.extend({
-  name: {
-    type: String,
-    minlength: 4
-    maxlength: 20
-  },
-  age: {
-    type: Number,
-    max: 200
-  }
-});
+> var Model = require('model.js');
+
+> var Person = Model.extend({
+... id: { type: 'integer', required: true },
+... name: { type: 'string', minlength: 4, maxlength: 20 },
+... birthdate: { type: 'date' },
+... });
+
+> var Customer = Person.extend({
+... 'contact.email': { email: true, required: true },
+... 'contact.phone': { type: 'string' },
+... 'contact.address': { type: 'string' }
+... });
+
+// 'validate' returns a map of property keys/validation errors
+> Person.validate({})
+{ id: [ 'Required' ] }
+
+// the 'required' rule will have preference over other rules
+> Customer.validate({})
+{ 'contact.email': [ 'Required' ], id: [ 'Required' ] }
+
+> Person.validate({id: 'not a number'})
+{ id: [ 'Expecting integer' ] }
+
+// Models inherit rules and other options
+> Customer.validate({id: 5.7, contact: {email: 'not an email'}})
+{ 'contact.email': [ 'Invalid email address' ],
+  id: [ 'Expecting integer' ] }
+
+// types are weakly enforced, if the value can be converted then its ok:
+> Customer.validate({id: '100', contact: {email: 'customer@company.com'}})
+null
+
+// Normally 'validate' will only validate. Pass 'true' as the second 
+// argument to apply conversions if needed
+> var customer = {id: '100', birthdate: '2000-10-10', contact: {email: 'customer@company.com'}}
+> Customer.validate(customer, true)
+> customer
+{ id: 100,
+  birthdate: Tue, 10 Oct 2000 00:00:00 GMT,
+  contact: { email: 'customer@company.com' } }
 ```
 
 ## To run the tests
