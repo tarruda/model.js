@@ -28,6 +28,7 @@ suite('Handlers:', function() {
         '2012-06-20 07:33:00'
         ], ['invalid']],
     required: [{p:{required: true}},['req1',0], [null, undefined, '']],
+    pattern: [{p:{pattern:/^abc$/i}},['AbC','abc','ABC'],['A bc', ' abc']],
     minlength: [{p:{minlength: 4}}, ['abcd'], ['abc']],
     maxlength: [{p:{maxlength: 6}}, ['abcdef',[2,3,4,5,6]],['abcdefg']],
     min: [{p:{min: 11}}, [11], [10]],
